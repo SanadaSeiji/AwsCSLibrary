@@ -4,22 +4,12 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using AwsServicesCSLibrary.Interfaces;
+using AwsCSLibrary.Interfaces;
 
-namespace AwsServicesCSLibrary
+namespace AwsCSLibrary
 {
-    public class AwsManagers:IAwsManagers
+    public partial class AwsManagers:IAwsManagers
     {
-        // in constructor set up client for every services?
-        private readonly IAmazonS3 s3Client;
-        private readonly string bucketName;
-
-        public AwsManagers(AWSOptions options, AwsConfig config)
-        {
-            s3Client = options.CreateServiceClient<IAmazonS3>();
-            bucketName = config.Bucket;
-        }
-
         // s3 creates folders automatically
         public async Task UploadFileAsync(string filePath, string key)
         {
@@ -75,7 +65,5 @@ namespace AwsServicesCSLibrary
             await CopyS3ObjectWithinBucketAsync(sourceKey, destinationKey);
             await DeleteS3ObjectAsync(sourceKey);
         }
-
-        
     }
 }

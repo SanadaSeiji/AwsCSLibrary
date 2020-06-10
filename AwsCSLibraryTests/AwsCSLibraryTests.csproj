@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AwsServicesCSLibrary\AwsServicesCSLibrary.csproj" />
+    <ProjectReference Include="..\AwsCSLibrary\AwsCSLibrary.csproj" />
   </ItemGroup>
 
 </Project>

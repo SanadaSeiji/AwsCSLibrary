@@ -1,47 +1,11 @@
-﻿using Amazon;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Threading.Tasks;
-using AwsServicesCSLibrary;
 
-namespace AwsServicesCSLibraryTests
+namespace AwsCSLibraryTests
 {
-    [TestClass]
-    public class AwsManagersTests
+    public partial class AwsManagersTests
     {
-        private AwsManagers aws;
-        private Helpers hlp;
-
-        [TestInitialize]
-        public void SetEnvironmentVariables()
-        {
-            Environment.SetEnvironmentVariable("S3KEY", "accessKey");
-            Environment.SetEnvironmentVariable("S3SECRET", "secretKey");
-            Environment.SetEnvironmentVariable("S3BUCKET", "bucketName");
-            Environment.SetEnvironmentVariable("PendingQueue", "sqsQueueUrl");
-
-            var awsOptions = new AWSOptions
-            {
-                Credentials = new BasicAWSCredentials(Environment.GetEnvironmentVariable("S3KEY"),
-                                                     Environment.GetEnvironmentVariable("S3SECRET")),
-                Region = RegionEndpoint.EUWest2
-            };
-
-            var awsConfig = new AwsConfig
-            {
-                Bucket = Environment.GetEnvironmentVariable("S3BUCKET"),
-                Queue = Environment.GetEnvironmentVariable("PendingQueue")
-            };
-
-            aws = new AwsManagers(awsOptions, awsConfig);
-            hlp = new Helpers(awsOptions, awsConfig);
-
-
-        }
-
         [TestMethod]
         public async Task UploadFileToBucket()
         {

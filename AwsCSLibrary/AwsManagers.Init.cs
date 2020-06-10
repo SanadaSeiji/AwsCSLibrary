@@ -1,9 +1,9 @@
 ﻿using Amazon.Extensions.NETCore.Setup;
-using AwsServicesCSLibrary.Interfaces;
+using AwsCSLibrary.Interfaces;
 using Amazon.S3;
 using Amazon.SQS;
 
-namespace AwsServicesCSLibrary
+namespace AwsCSLibrary
 {
     public partial class AwsManagers:IAwsManagers
     {
@@ -11,7 +11,7 @@ namespace AwsServicesCSLibrary
         private readonly IAmazonS3 s3Client;
         private readonly string bucketName;
 
-        private readonly IAmazonSQS sqs;
+        private readonly IAmazonSQS sqsCLient;
         private readonly string queueUrl;
 
         public AwsManagers(AWSOptions options, AwsConfig config)
@@ -19,7 +19,7 @@ namespace AwsServicesCSLibrary
             s3Client = options.CreateServiceClient<IAmazonS3>();
             bucketName = config.Bucket;
 
-            sqs = options.CreateServiceClient<IAmazonSQS>();
+            sqsCLient = options.CreateServiceClient<IAmazonSQS>();
             queueUrl = config.Queue;
         }
     }

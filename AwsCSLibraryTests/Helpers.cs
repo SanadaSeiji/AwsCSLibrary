@@ -5,10 +5,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
-using AwsServicesCSLibrary;
-using AwsServicesCSLibrary.Interfaces;
+using AwsCSLibrary;
+using AwsCSLibrary.Interfaces;
 
-namespace AwsServicesCSLibraryTests
+namespace AwsCSLibraryTests
 {
     internal class Helpers
     {

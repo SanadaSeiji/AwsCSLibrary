@@ -1,5 +1,5 @@
 ﻿
-namespace AwsServicesCSLibrary
+namespace AwsCSLibrary
 {
     public class AwsConfig
     {
