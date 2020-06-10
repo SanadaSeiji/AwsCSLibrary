@@ -2,6 +2,8 @@
 using AwsCSLibrary.Interfaces;
 using Amazon.S3;
 using Amazon.SQS;
+using Amazon.Textract;
+
 
 namespace AwsCSLibrary
 {
@@ -14,12 +16,15 @@ namespace AwsCSLibrary
         private readonly IAmazonSQS sqsCLient;
         private readonly string queueUrl;
 
+        private readonly IAmazonTextract textractClient;
+
         public AwsManagers(AWSOptions options, AwsConfig config)
         {
             s3Client = options.CreateServiceClient<IAmazonS3>();
-            bucketName = config.Bucket;
+            sqsCLient = options.CreateServiceClient<IAmazonSQS>();         
+            textractClient = options.CreateServiceClient<IAmazonTextract>();
 
-            sqsCLient = options.CreateServiceClient<IAmazonSQS>();
+            bucketName = config.Bucket;
             queueUrl = config.Queue;
         }
     }
