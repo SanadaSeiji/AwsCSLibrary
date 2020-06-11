@@ -3,7 +3,9 @@ using AwsCSLibrary.Interfaces;
 using Amazon.S3;
 using Amazon.SQS;
 using Amazon.Textract;
-
+using Amazon.DynamoDBv2;
+using Amazon;
+using Amazon.Runtime;
 
 namespace AwsCSLibrary
 {
@@ -18,14 +20,27 @@ namespace AwsCSLibrary
 
         private readonly IAmazonTextract textractClient;
 
-        public AwsManagers(AWSOptions options, AwsConfig config)
+        private readonly AmazonDynamoDBClient dbClient;
+        private readonly string tableName;
+
+        public AwsManagers(AwsConfig config)
         {
+            var options = new AWSOptions
+            {
+                Credentials = new BasicAWSCredentials(config.AccessKey,config.SecretKey),
+                Region = RegionEndpoint.GetBySystemName(config.Region)
+            };
+
             s3Client = options.CreateServiceClient<IAmazonS3>();
             sqsCLient = options.CreateServiceClient<IAmazonSQS>();         
             textractClient = options.CreateServiceClient<IAmazonTextract>();
 
+
+            dbClient = new AmazonDynamoDBClient(config.AccessKey, config.SecretKey, RegionEndpoint.GetBySystemName(config.Region));
+
             bucketName = config.Bucket;
             queueUrl = config.Queue;
+            tableName = config.Table;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Amazon.Extensions.NETCore.Setup;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using PdfSharp.Pdf;
 using System.IO;
 using System.IO.Compression;
@@ -13,17 +12,15 @@ namespace AwsCSLibraryTests
     internal class Helpers
     {
         private readonly IAwsManagers aws;
-        internal Helpers() { 
-        }
 
-        internal Helpers(AWSOptions options, AwsConfig config)
+        internal Helpers(AwsConfig config)
         {
-            aws = new AwsManagers(options, config);
+            aws = new AwsManagers(config);
         }
-        internal ILogger<FileProcessorApp> GetLogger()
+        internal ILogger<App> GetLogger()
         {
             ILoggerFactory loggerFactory = new LoggerFactory().AddConsole().AddDebug();
-            return loggerFactory.CreateLogger<FileProcessorApp>();
+            return loggerFactory.CreateLogger<App>();
         }
 
         internal string CreateOnePagePdfOnLocalTemp()

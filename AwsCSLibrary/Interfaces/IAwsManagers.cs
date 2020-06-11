@@ -1,5 +1,6 @@
 ﻿using Amazon.SQS.Model;
 using Amazon.Textract.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AwsCSLibrary.Interfaces
@@ -20,9 +21,14 @@ namespace AwsCSLibrary.Interfaces
 
         // textract
         Task<string> StartDocumentAnalysis(string key, string featureType, int maxRetry);
-		bool IsJobComplete(string jobId)
-		GetDocumentAnalysisResponse GetJobResults(string jobId)
-		string GetRawText(GetDocumentAnalysisResponse response)
-		string CreateKeyValueText(GetDocumentAnalysisResponse response)
+        bool IsJobComplete(string jobId);
+        GetDocumentAnalysisResponse GetJobResults(string jobId);
+        string GetRawText(GetDocumentAnalysisResponse response);
+        string CreateKeyValueText(GetDocumentAnalysisResponse response);
+
+        // dynamodb
+        Task<List<DBRecord>> GetRecordsAsync(string filterColumn, string searchedNode);
+        Task PutRecordAsync(string source, string target);
+        Task DeleteRecordAsync(string hashKey);
     }
 }

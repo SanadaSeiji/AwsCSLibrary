@@ -1,12 +1,11 @@
 ﻿using Amazon.Runtime;
-using Amazon.Textract;
 using Amazon.Textract.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AwsCSLibrary.Interfaces;
-using Amazon.Extensions.NETCore.Setup;
+using System.Text;
 
 namespace AwsCSLibrary
 {
@@ -58,7 +57,7 @@ namespace AwsCSLibrary
 		
 		public bool IsJobComplete(string jobId)
         {
-            var response = textract.GetDocumentAnalysisAsync(new GetDocumentAnalysisRequest
+            var response = textractClient.GetDocumentAnalysisAsync(new GetDocumentAnalysisRequest
             {
                 JobId = jobId
             });
@@ -69,7 +68,7 @@ namespace AwsCSLibrary
 		
 		public GetDocumentAnalysisResponse GetJobResults(string jobId)
         {
-            var response = this.textract.GetDocumentAnalysisAsync(new GetDocumentAnalysisRequest
+            var response = textractClient.GetDocumentAnalysisAsync(new GetDocumentAnalysisRequest
             {
                 JobId = jobId
             });

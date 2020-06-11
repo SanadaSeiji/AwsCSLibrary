@@ -4,13 +4,14 @@ using Amazon.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using AwsCSLibrary;
+using AwsCSLibrary.Interfaces;
 
 namespace AwsCSLibraryTests
 {
     [TestClass]
     public partial class AwsManagersTests
     {
-        private AwsManagers aws;
+        private IAwsManagers aws;
         private Helpers hlp;
 
         [TestInitialize]
@@ -18,24 +19,24 @@ namespace AwsCSLibraryTests
         {
             Environment.SetEnvironmentVariable("KEY", "accessKey");
             Environment.SetEnvironmentVariable("SECRET", "secretKey");
+            Environment.SetEnvironmentVariable("REGION", "region"); 
+            Environment.SetEnvironmentVariable("Table", "tableName");
             Environment.SetEnvironmentVariable("Bucket", "bucketName");
             Environment.SetEnvironmentVariable("Queue", "sqsQueueUrl");
 
-            var awsOptions = new AWSOptions
-            {
-                Credentials = new BasicAWSCredentials(Environment.GetEnvironmentVariable("KEY"),
-                                                     Environment.GetEnvironmentVariable("SECRET")),
-                Region = RegionEndpoint.EUWest2
-            };
 
             var awsConfig = new AwsConfig
             {
+                AccessKey = Environment.GetEnvironmentVariable("KEY"),
+                SecretKey = Environment.GetEnvironmentVariable("SECRET"),
+                Region = Environment.GetEnvironmentVariable("REGION"),
                 Bucket = Environment.GetEnvironmentVariable("Bucket"),
+                Table = Environment.GetEnvironmentVariable("Table"),
                 Queue = Environment.GetEnvironmentVariable("Queue")
             };
 
-            aws = new AwsManagers(awsOptions, awsConfig);
-            hlp = new Helpers(awsOptions, awsConfig);
+            aws = new AwsManagers(awsConfig);
+            hlp = new Helpers(awsConfig);
         }
     }
 }

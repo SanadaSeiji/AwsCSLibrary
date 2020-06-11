@@ -6,9 +6,6 @@ using Amazon.Lambda.SQSEvents;
 using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using Amazon;
 using AwsCSLibrary.Interfaces;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -104,9 +101,11 @@ namespace AwsCSLibrary
                 throw new Exception("Missing REGION environment variable");
 
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Bucket")))
-                throw new Exception("Missing Bucket environment variable");         
+                throw new Exception("Missing Bucket environment variable");      
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Queue")))
                 throw new Exception("Missing Queue environment variable");
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Table")))
+                throw new Exception("Missing Table environment variable");
 
             serviceCollection.AddLogging(loggingBuilder =>
             {
@@ -114,17 +113,15 @@ namespace AwsCSLibrary
                 loggingBuilder.AddDebug();
             });
 
-            var awsOptions = new AWSOptions
-            {
-                Credentials = new BasicAWSCredentials(Environment.GetEnvironmentVariable("KEY"),
-                                                      Environment.GetEnvironmentVariable("SECRET")),
-                Region = RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("REGION"))
-        };
-            serviceCollection.AddSingleton(awsOptions);
+
             var awsConfig = new AwsConfig
             {
+                AccessKey = Environment.GetEnvironmentVariable("KEY"),
+                SecretKey = Environment.GetEnvironmentVariable("SECRET"),
+                Region = Environment.GetEnvironmentVariable("REGION"),
                 Bucket = Environment.GetEnvironmentVariable("Bucket"),
-                Queue = Environment.GetEnvironmentVariable("Queue")
+                Queue = Environment.GetEnvironmentVariable("Queue"),
+                Table = Environment.GetEnvironmentVariable("Table")
             };
             serviceCollection.AddSingleton(awsConfig);
             serviceCollection.AddTransient<IAwsManagers, AwsManagers>();
